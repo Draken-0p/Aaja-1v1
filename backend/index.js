@@ -28,14 +28,26 @@ app.use("/", (req, res) => {
 })
 
 //Server Listen
+let room = []
+let userinroom =[]
+
 io.on('connection', async (socket) => {
-    console.log('a user connected', socket);
+    console.log('a user connected', socket.id);
 
 
     socket.on("create_room", (anotherSocketId) => {
         console.log(anotherSocketId)
         socket.join(anotherSocketId);
     });
+
+    socket.on('alluser',(e)=>{
+            console.log("pram",e)
+           
+    })
+
+    socket.on('disconnect',()=>{
+
+    })
 
 });
 
