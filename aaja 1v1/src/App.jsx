@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import Home from "./components/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HeroScreen from "./components/HeroSceen";
+import "./index.css";
 
 import io from "socket.io-client";
+import Context, { userinfo } from "./context";
+import { useContext } from "react";
 
-const socket = io(`http://localhost:5000/`);
+export const socket = io(`http://localhost:5000/`);
 
 function App() {
+
+    const {user , setUser } = useContext(userinfo) 
+  
+
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [userName, setUserName] = useState(null);
   const [roomId, setRoomId] = useState(null);
 
   useEffect(() => {
+    // setUser("jkasdhjkfh")
+    // console.log("app user",user)
     socket.on("connect", () => {
       setIsConnected(true);
     });
@@ -43,4 +52,12 @@ function App() {
   );
 }
 
-export default App;
+const ContextwrapperApp = ()=>{
+  return(
+    <Context>
+         <App/>
+    </Context>
+  )
+}
+
+export default ContextwrapperApp;
